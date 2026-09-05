@@ -24,8 +24,8 @@ const serviceValidation = [
     .trim()
     .notEmpty()
     .withMessage('Description is required')
-    .isLength({ min: 10 })
-    .withMessage('Description must be at least 10 characters long'),
+    .isLength({ min: 2 })
+    .withMessage('Description must be at least 2 characters long'),
   body('base_price')
     .notEmpty()
     .withMessage('Base price is required')

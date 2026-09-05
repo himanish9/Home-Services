@@ -23,6 +23,7 @@ const AdminDashboard = () => {
     base_price: ''
   });
   const [editingCategoryId, setEditingCategoryId] = useState(null);
+  const [modalError, setModalError] = useState(null);
 
   const loadData = async () => {
     try {
@@ -86,6 +87,7 @@ const AdminDashboard = () => {
   // Create or update service category
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
+    setModalError(null);
     try {
       if (editingCategoryId) {
         await api.put(`/services/${editingCategoryId}`, categoryFormData);
@@ -96,10 +98,12 @@ const AdminDashboard = () => {
       }
       setShowCategoryModal(false);
       setEditingCategoryId(null);
+      setModalError(null);
       setCategoryFormData({ name: '', description: '', icon: 'wrench', base_price: '' });
       loadData();
     } catch (err) {
-      alert(err.response?.data?.message || 'Error saving category');
+      const errMsg = err.response?.data?.message || err.response?.data?.errors?.map((e) => e.message).join(', ') || 'Error saving category';
+      setModalError(errMsg);
     }
   };
 
@@ -510,6 +514,12 @@ const AdminDashboard = () => {
             <h3 style={{ fontSize: '1.35rem', color: 'var(--secondary)', marginBottom: '1rem' }}>
               {editingCategoryId ? 'Edit Service Category' : 'Create Service Category'}
             </h3>
+
+            {modalError && (
+              <div className="alert alert-danger" style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', marginBottom: '1rem' }}>
+                <span>⚠️</span> {modalError}
+              </div>
+            )}
 
             <form onSubmit={handleCategorySubmit}>
               <div className="form-group">

@@ -11,7 +11,8 @@ const validateRequest = (req, res, next) => {
       field: err.path || err.param,
       message: err.msg
     }));
-    return sendError(res, 400, 'Validation Error', formattedErrors);
+    const primaryMessage = formattedErrors.map((e) => e.message).join(', ');
+    return sendError(res, 400, primaryMessage || 'Validation Error', formattedErrors);
   }
   next();
 };
