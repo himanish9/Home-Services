@@ -352,9 +352,18 @@ node test_e2e.js
 
 ---
 
-## 🌐 Deployment
+## 🌐 Production Build
 
-For complete, step-by-step instructions on deploying the frontend to **Vercel**, backend to **Render**, and database to a managed cloud MySQL provider, refer to the [Cloud Deployment Guide](DEPLOYMENT.md).
+To test or generate production bundles:
+```powershell
+# Frontend build
+cd homeserve-frontend
+npm run build
+
+# Backend start
+cd homeserve-backend
+npm start
+```
 
 ---
 
